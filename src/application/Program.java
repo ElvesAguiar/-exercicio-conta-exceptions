@@ -33,7 +33,12 @@ public class Program {
 	System.out.println("");
 	//testando metodo withdraw
 	System.out.print("Enter amount for withdraw: ");
+	
 	double withdraw = sc.nextDouble();
+	if(withdraw<0) {
+		sc.close();
+		throw new RuntimeException("It is not possible to withdraw negative amounts!!!");
+	}
 	account.withdraw(withdraw);
 	
 	System.out.println("New balance: "+account.getBalance());
