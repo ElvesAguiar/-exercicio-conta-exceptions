@@ -22,6 +22,20 @@ public class LendingAccount extends Account {
 		this.withdrawLimit = withdrawLimit;
 	}
 
+	private void validateWithdraw(double amount) {
+		if (super.getBalance() == 0) {
+			throw new DomainException("Balance must be different than zero to make withdraw!!");
+
+		}
+
+		if (amount > withdrawLimit) {
+			throw new DomainException("Withdraw error: The amount exceeds withdraw limit");
+		}
+		if (amount > getBalance()) {
+			throw new DomainException("Withdraw error: Not enough balance");
+		}
+	}
+
 	@Override
 	public void deposit(double amount) {
 
@@ -30,17 +44,10 @@ public class LendingAccount extends Account {
 
 	@Override
 	public void withdraw(double amount) {
+		validateWithdraw(amount);
 
-		if (super.getBalance() == 0) {
-			throw new DomainException("Balance must be different than zero!!");
+		super.setBalance(getBalance() - amount);
 
-		} else {
-			if (super.getBalance() < amount) {
-				throw new DomainException("Balance must greater than amount!!");
-			} else {
-				super.setBalance(getBalance() - amount);
-			}
-		}
 	}
 
 }
